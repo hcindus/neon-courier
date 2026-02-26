@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON COURIER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        #gameContainer {
+            position: relative;
+        }
+        
+        canvas {
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 20px #00ffff, inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+        
+        .ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        
+        .top-ui {
+            display: flex;
+            justify-content: space-between;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .bottom-ui {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        
+        .boost-bar {
+            width: 200px;
+            height: 20px;
+            background: rgba(255, 0, 255, 0.2);
+            border: 2px solid #ff00ff;
+            margin-top: 10px;
+        }
+        
+        .boost-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #ff40ff);
+            box-shadow: 0 0 10px #ff00ff;
+            transition: width 0.1s;
+        }
+        
+        .menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: auto;
+        }
+        
+        .menu h1 {
+            color: #00ffff;
+            font-size: 48px;
+            text-shadow: 0 0 20px #00ffff;
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+        }
+        
+        .menu-item {
+            color: #00ffff;
+            font-size: 24px;
+            margin: 15px 0;
+            cursor: pointer;
+            text-shadow: 0 0 10px #00ffff;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 20px #ff00ff;
+            transform: scale(1.1);
+        }
+        
+        .mobile-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            display: none;
+            pointer-events: auto;
+        }
+        
+        .control-zone {
+            position: absolute;
+            width: 40%;
+            height: 100%;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ffff;
+            font-size: 14px;
+        }
+        
+        .control-left { left: 5%; }
+        .control-right { right: 5%; }
+        .control-boost {
+            left: 35%;
+            width: 30%;
+            background: rgba(255, 0, 255, 0.1);
+            border-color: rgba(255, 0, 255, 0.3);
+            color: #ff00ff;
+        }
+        
+        .hidden { display: none !important; }
+        
+        @media (max-width: 800px) {
+            .mobile-controls { display: flex; }
+            canvas { width: 100vw; height: 60vh; }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div class="ui-overlay" id="uiOverlay">
+            <div class="top-ui">
+                <div>SCORE: <span id="score">0</span></div>
+                <div>DIST: <span id="distance">0</span>m</div>
+            </div>
+            <div class="bottom-ui">
+                <div>BOOST</div>
+                <div class="boost-bar">
+                    <div class="boost-fill" id="boostFill" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu" id="mainMenu">
+            <h1>⚡ NEON COURIER ⚡</h1>
+            <div class="menu-item" onclick="game.start()">START RUN</div>
+            <div class="menu-item" onclick="game.showHelp()">HOW TO PLAY</div>
+            <div class="menu-item" onclick="game.showStory()">STORY</div>
+        </div>
+        
+        <div class="mobile-controls" id="mobileControls">
+            <div class="control-zone control-left" id="leftControl">◀ STEER</div>
+            <div class="control-zone control-boost" id="boostControl">▲ BOOST</div>
+            <div class="control-zone control-right" id="rightControl">STEER ▶</div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
